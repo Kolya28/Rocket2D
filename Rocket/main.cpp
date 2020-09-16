@@ -17,8 +17,8 @@ int main()
 	try
 	{
 		engine.init();
-		//engine.pushState(new MainMenu);
-		engine.pushState(new GameState);
+		engine.pushState(new MainMenu);
+		//engine.pushState(new GameState);
 
 		auto maxFrametime = chrono::milliseconds(1000) / 80;
 		auto lastTime = chrono::steady_clock::now();
