@@ -2,15 +2,24 @@
 #include "pch.h"
 #include "Menu.h"
 #include "UIButton.h"
+#include "UISlider.h"
 
 class MainMenu : public Menu
 {
 public:
     MainMenu()
     {
-        addElement(new UIButton("button", [&]() { std::cout << "pressed1\n"; }));
-        addElement(new UIButton("button", [&]() { std::cout << "pressed2\n"; }));
-        addElement(new UIButton("button", [&]() { std::cout << "pressed3\n"; }));
-        addElement(new UIButton("button", [&]() { std::cout << "pressed4\n"; }));
+        static auto s_fuel = new UISlider("Fuel", 0.5f, sf::Vector2f(0.f, 1000.f));
+        static auto s_g = new UISlider("g", 0.5f, sf::Vector2f(0.f, 9.8f * 2.f));
+
+        static auto b_printFuel = new UIButton("Print Fuel", [&]()
+        {
+            std::cout << s_fuel->getValue() << std::endl;
+        });
+
+
+        addElement(s_g);
+        addElement(s_fuel);
+        addElement(b_printFuel);
     }
 };

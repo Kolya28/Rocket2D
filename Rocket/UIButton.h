@@ -12,7 +12,7 @@ public:
         text.setString(name);
     }
 
-    void update(sf::Vector2f cursor, bool isPressed) override
+    bool update(sf::Vector2f cursor, bool isPressed, bool reset) override
     {
         if (sf::FloatRect(0.f, 0.f, 1.f, 1.f).contains(cursor))
         {
@@ -24,14 +24,17 @@ public:
             pressed = isPressed;
         }
         else
-            pressed = false;
+            if(!isPressed)
+                pressed = false;
+
+        return pressed;
     }
 
     void draw(sf::RenderTarget &target, sf::Vector2f viewport, sf::Vector2f pos) override
     {
         sf::RectangleShape shape;
         shape.setOutlineColor(sf::Color::Yellow);
-        shape.setOutlineThickness(5.f);
+        shape.setOutlineThickness(std::min(viewport.x, viewport.y) / 250.f);
 
         if (pressed)
             shape.setFillColor(sf::Color(150, 150, 150));

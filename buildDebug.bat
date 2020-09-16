@@ -7,7 +7,5 @@ cd Debug
 cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-mconsole" -G "MinGW Makefiles" ../..
 mingw32-make
 
-cd Rocket
+cd ../../bin/Debug
 Rocket.exe
-
-pause

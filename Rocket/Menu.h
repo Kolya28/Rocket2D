@@ -21,7 +21,9 @@ protected:
 
 private:
 	bool pressed = false;
+	bool reset = false;
 	float space = 0.05f;
+	int focused = -1;
 	std::vector<UIElement*> elements;
 	
 	sf::Vector2f cursor;

@@ -7,6 +7,9 @@
 #ifndef PCH_H
 #define PCH_H
 
+#ifndef PROJECT_NAME
+#define PROJECT_NAME "PROJECT_NAME"
+#endif
 
 #include<iostream>
 #include<thread>

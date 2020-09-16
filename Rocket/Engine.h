@@ -25,6 +25,7 @@ public:
 
 	bool isRunning() { return window.isOpen(); }
 	sf::Window& getWindow(){return window;}
+	const sf::View& getDefaultView(){return defaultView;}
 
 private:
 	void quit();

@@ -7,7 +7,7 @@ void Engine::init()
 	vm.height /= 2;
 	vm.width /= 2;
 
-	window.create(vm, "DotProjection", 7U, sf::ContextSettings(0, 0, 4));
+	window.create(vm, PROJECT_NAME, 7U, sf::ContextSettings(0, 0, 4));
 
 	if (!window.isOpen())
 		throw std::runtime_error("Window create error");
@@ -20,7 +20,7 @@ void Engine::cleanup()
 	quit();
 }
 
-void Engine::pushState(State* state)
+void Engine::pushState(State *state)
 {
 	state->init(defaultView.getSize());
 	states.push_back(state);
@@ -34,9 +34,11 @@ void Engine::popState()
 
 	if (states.empty())
 		quit();
-}	
+	else
+		states.back()->resume();
+}
 
-void Engine::changeState(State* state)
+void Engine::changeState(State *state)
 {
 	if (states.empty())
 		return;
@@ -59,7 +61,7 @@ void Engine::poolEvents()
 			defaultView.setSize(static_cast<sf::Vector2f>(window.getSize()));
 			window.setView(defaultView);
 
-			for (auto& s : states)
+			for (auto &s : states)
 				s->resizeCallback(sf::Vector2f(ev.size.width, ev.size.height));
 
 			continue;
@@ -71,23 +73,26 @@ void Engine::poolEvents()
 			return;
 		}
 
-		for (auto& s : states)
-			s->handleEvent(ev);
+		for (auto &s : states)
+			if (!s->isPaused())
+				s->handleEvent(ev);
 	}
 }
 
 void Engine::update(float dt)
 {
-	for (auto& s : states)
-		s->update(dt);
+	for (auto &s : states)
+		if (!s->isPaused())
+			s->update(dt);
 }
 
 void Engine::draw()
 {
 	window.clear();
 
-	for (auto& s : states)
-		s->draw(window);
+	for (auto &s : states)
+		if (s->isVisible())
+			s->draw(window);
 
 	window.display();
 }
