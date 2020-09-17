@@ -3,7 +3,22 @@
 
 void Rocket::update(float dt) 
 {
-    pos.y -= dt * 10.f;
+    float Fy = 0.f;
+    float Ay = 0.f;
+    //g=GM/(r+h)^2
+    float g = GM / std::pow(r + h, 2);
+    std::cout << Vy << '\n';
+
+    Fy += m * g;
+
+    Ay += Fy/m;
+
+    Vy -= Ay * dt;
+
+    h += Vy * dt;
+
+
+    pos.y = -h * 10.f;
 }
 
 void Rocket::draw(sf::RenderTarget &target) 
