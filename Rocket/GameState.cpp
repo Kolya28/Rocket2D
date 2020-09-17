@@ -9,6 +9,8 @@ void GameState::init(const sf::Vector2f& viewport)
     ground.setFillColor(sf::Color::Red);
 
     resizeCallback(viewport);
+
+    rocket.create();
 }
 
 void GameState::cleanup() 
@@ -28,13 +30,13 @@ void GameState::update(float dt)
 
 void GameState::draw(sf::RenderTarget& target) 
 {
-    target.draw(sky_color);
+    //target.draw(sky_color);
 
     sf::View rocketView = engine.getDefaultView();
     rocketView.setCenter(rocket.getPos());
     target.setView(rocketView);
 
-    target.draw(ground);
+    //target.draw(ground);
     rocket.draw(target);
 
     target.setView(engine.getDefaultView());

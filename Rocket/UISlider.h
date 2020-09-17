@@ -13,7 +13,7 @@ public:
             textSize = {0.f, 0.07f};
 
 
-        sliderSize = {0.5f, 0.08f};
+        sliderSize = {0.5f, 0.05f};
         size = textSize + sliderSize;
 
         this->name = name;

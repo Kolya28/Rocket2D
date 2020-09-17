@@ -20,7 +20,7 @@ int main()
 		engine.pushState(new MainMenu);
 		//engine.pushState(new GameState);
 
-		auto maxFrametime = chrono::milliseconds(1000) / 80;
+		auto maxFrametime = chrono::nanoseconds(static_cast<int>(1. / 150. * 1'000'000'000.));
 		auto lastTime = chrono::steady_clock::now();
 
 		while (engine.isRunning())
