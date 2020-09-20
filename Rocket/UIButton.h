@@ -32,6 +32,9 @@ public:
 
     void draw(sf::RenderTarget &target, sf::Vector2f viewport, sf::Vector2f pos) override
     {
+        float safezone = std::min(viewport.x, viewport.y);
+        sf::Vector2f Size(size * safezone);
+
         sf::RectangleShape shape;
         shape.setOutlineColor(sf::Color::Yellow);
         shape.setOutlineThickness(std::min(viewport.x, viewport.y) / 250.f);
@@ -41,7 +44,7 @@ public:
         else
             shape.setFillColor(sf::Color(200, 200, 200));
 
-        shape.setSize({viewport.x * size.x, viewport.y * size.y});
+        shape.setSize(Size);
         shape.setPosition(pos);
         shape.move(-shape.getSize().x / 2.f, 0.f);
 
@@ -49,11 +52,11 @@ public:
 
         //text
 
-        text.setCharacterSize(std::min(viewport.x, viewport.y) / 15.f);
+        text.setCharacterSize(safezone / 15.f);
 
         text.setOrigin(text.getGlobalBounds().width / 2.f,
                        text.getGlobalBounds().height / 2.f);
-        text.setPosition(pos.x, pos.y + (viewport.y * size.y) / 3.f);
+        text.setPosition(pos.x, pos.y + Size.y / 3.f);
         target.draw(text);
     }
 

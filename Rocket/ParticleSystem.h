@@ -29,15 +29,16 @@ public:
 
     void update(float dt, float length = 1.f)
     {
+        length += 0.01f;
         for (auto &p : particles)
         {
-            if (static_cast<float>(p.color.a) - p.burnSpeed * dt < 0.f)
+            if (static_cast<float>(p.color.a) - p.burnSpeed * dt / length < 0.f)
             {
                 p = createParticle(length);
                 continue;
             }
 
-            p.color.a -= p.burnSpeed * dt;
+            p.color.a -= p.burnSpeed * dt / length;
             p.pos += p.V * dt;
         }
     }
@@ -58,12 +59,12 @@ private:
         length *= maxLength;
         Particle p;
 
-        static std::uniform_real_distribution<> dist_lifetime(length*0.8f, length);
+        static std::uniform_real_distribution<> dist_lifetime(length * 0.8f, length);
         static std::uniform_real_distribution<> dist_Vx(-300.f, 300.f);
         static std::uniform_real_distribution<> dist_Y(-20.f, 20.f);
         static std::uniform_real_distribution<> dist_X(-20.f, 20.f);
 
-        p.color = sf::Color(255,255,0,200);
+        p.color = sf::Color(255, 255, 0, 200);
         p.burnSpeed = p.color.a / dist_lifetime(random_engine);
         p.pos = {dist_X(random_engine), dist_Y(random_engine)};
 
@@ -72,7 +73,7 @@ private:
         return p;
     }
 
-    const float maxLength = 0.3f;
+    const float maxLength = 0.2f;
 
     std::vector<Particle> particles;
     int maxCount = 50;

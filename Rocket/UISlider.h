@@ -7,13 +7,12 @@ class UISlider : public UIElement
 public:
     UISlider(const std::string &name, float value = 0.5f, sf::Vector2f distribution = {0.f, 1.f})
     {
-        if(name.empty())
-            textSize = {0.f,0.f};
+        if (name.empty())
+            textSize = {0.f, 0.f};
         else
             textSize = {0.f, 0.07f};
 
-
-        sliderSize = {0.5f, 0.05f};
+        sliderSize = {0.8f, 0.05f};
         size = textSize + sliderSize;
 
         this->name = name;
@@ -59,33 +58,37 @@ public:
 
     void draw(sf::RenderTarget &target, sf::Vector2f viewport, sf::Vector2f pos)
     {
+        float safezone = std::min(viewport.x, viewport.y);
+        sf::Vector2f sSize(sliderSize * safezone);
+        sf::Vector2f tSize(textSize * safezone);
+
         sf::RectangleShape shape;
         shape.setOutlineColor(sf::Color::Yellow);
         shape.setOutlineThickness(std::min(viewport.x, viewport.y) / 250.f);
 
         shape.setFillColor(sf::Color(200, 200, 200));
 
-        shape.setSize({viewport.x * sliderSize.x, viewport.y * sliderSize.y});
+        shape.setSize(sSize);
         shape.setPosition(pos);
-        shape.move(-shape.getSize().x / 2.f, textSize.y * viewport.y);
+        shape.move(-shape.getSize().x / 2.f, tSize.y);
 
         target.draw(shape);
 
         //slider
 
-        float begin = (viewport.x * (1.f - sliderSize.x)) / 2.f;
-        float end = begin + viewport.x * sliderSize.x - viewport.y * sliderSize.y;
+        float begin = pos.x - sSize.x / 2.f;
+        float end = pos.x + sSize.x / 2.f - sSize.y;
         float posX = (end - begin) * value + begin;
 
-        shape.setSize({viewport.y * sliderSize.y, viewport.y * sliderSize.y});
-        shape.setPosition(posX, pos.y + textSize.y * viewport.y);
+        shape.setSize({sSize.y, sSize.y});
+        shape.setPosition(posX, pos.y + tSize.y);
 
         shape.setOutlineThickness(0.f);
         shape.setFillColor(sf::Color::Red);
         target.draw(shape);
 
         //text
-        if(name.empty())
+        if (name.empty())
             return;
 
         std::string str = name + ": " + std::to_string(getValue());
@@ -97,7 +100,7 @@ public:
         text.setString(str);
         text.setCharacterSize(std::min(viewport.x, viewport.y) / 20.f);
         text.setOrigin(text.getGlobalBounds().width / 2.f, text.getGlobalBounds().height / 2.f);
-        text.setPosition(pos.x, pos.y + textSize.y * viewport.y / 3.f);
+        text.setPosition(pos.x, pos.y + tSize.y / 3.f);
         target.draw(text);
     }
 

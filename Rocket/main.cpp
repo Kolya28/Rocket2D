@@ -2,17 +2,15 @@
 #include "Engine.h"
 #include "Error.h"
 #include "MainMenu.h"
-#include"GameState.h"
+#include "GameState.h"
 
-
-
-#if defined(WIN32) && defined(NDEBUG) 
+#if defined(WIN32) && defined(NDEBUG)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow)
 #else
 int main()
 #endif
 {
-	Engine& engine = Engine::Instance();
+	Engine &engine = Engine::Instance();
 
 	try
 	{
@@ -29,7 +27,6 @@ int main()
 
 			engine.poolEvents();
 
-			
 			auto deltatime = chrono::steady_clock::now() - lastTime;
 			lastTime += deltatime;
 
@@ -39,20 +36,20 @@ int main()
 			engine.draw();
 
 			std::this_thread::sleep_for(maxFrametime -
-				(chrono::steady_clock::now() - frametime));
+										(chrono::steady_clock::now() - frametime));
 		}
 
 		engine.cleanup();
 	}
-	catch (const std::runtime_error& ex)
+	catch (const std::runtime_error &ex)
 	{
 		Error::error(ex.what());
 	}
-	catch (const std::string& ex)
+	catch (const std::string &ex)
 	{
 		Error::error(ex);
 	}
-	catch (const char* ex)
+	catch (const char *ex)
 	{
 		Error::error(ex);
 	}
